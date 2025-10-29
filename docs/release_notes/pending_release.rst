@@ -14,5 +14,18 @@ Updates / New Features
   - Created ``[tool.poetry.group.dev.dependencies]`` for development tools from requirements-dev.txt
   - Updated package configuration to Poetry's packages format
 
+
+* CI/CD:
+
+  - Converted ``.github/workflows/ci.yml`` to use Poetry for all operations
+  - Replaced ``uv`` package installer with ``poetry install``
+  - Updated all test and check commands to use ``poetry run`` prefix
+  - Changed caching strategy from pip cache to Poetry virtualenvs (``${cache-dir}/virtualenvs``)
+  - Migrated to ``snok/install-poetry@v1`` action for Poetry installation
+  - Maintained multi-platform testing across Ubuntu, Windows, and macOS
+  - Preserved Python 3.9-3.12 test matrix
+  - Retained OpenCV headless replacement logic for CI environments
+  - Organized workflow into separate jobs: core tests, pre-commit hooks, defaults checking, and documentation checks
+
 Fixes
 -----
