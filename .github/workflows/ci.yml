@@ -5,7 +5,6 @@ on:
       - main
     paths-ignore:
       - '**.md'
-      - 'benchmark/**'
 
 jobs:
   core:
@@ -164,41 +163,3 @@ jobs:
 
     - name: check-defaults-in-apply
       run: poetry run python -m tools.check_defaults
-
-  check_transforms_docs:
-    name: Check Transforms Docs
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      matrix:
-        operating-system: [ubuntu-latest]
-        python-version: ["3.9"]
-        include:
-          - operating-system: ubuntu-latest
-            path: ~/.cache/pip
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Restore Python cache
-      uses: actions/cache/restore@v4
-      with:
-        path: ${cache-dir}/virtualenvs
-        key: ${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-python-${{ matrix.python-version }}-
-
-    - name: Install and configure Poetry
-      uses: snok/install-poetry@v1
-
-    - name: Install all dependencies
-      run: poetry install
-
-    - name: Run checks for documentation
-      run: poetry run python -m tools.make_transforms_docs check README.md

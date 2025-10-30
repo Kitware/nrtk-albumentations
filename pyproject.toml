@@ -4,14 +4,15 @@ build-backend = "poetry.core.masonry.api"
 requires = [ "poetry-core>=2" ]
 
 [tool.poetry]
-name = "albumentations"
+name = "nrtk-albumentations"
 version = "2.0.8"
-description = "Fast, flexible, and advanced augmentation library for deep learning, computer vision, and medical imaging. Albumentations offers a wide range of transformations for both 2D (images, masks, bboxes, keypoints) and 3D (volumes, volumetric masks, keypoints) data, with optimized performance and seamless integration into ML workflows."
+description = "Fork of Albumentations in direct support of NRTK (Natural Robustness Toolkit). Fast, flexible, and advanced augmentation library for deep learning, computer vision, and medical imaging. Offers a wide range of transformations for both 2D (images, masks, bboxes, keypoints) and 3D (volumes, volumetric masks, keypoints) data, with optimized performance and seamless integration into ML workflows."
 authors = [ "Vladimir Iglovikov" ]
-maintainers = [ "Vladimir Iglovikov" ]
+maintainers = [ "Kitware, Inc. <nrtk@kitware.com>" ]
 license = "MIT"
 readme = "README.md"
-homepage = "https://albumentations.ai"
+homepage = "https://nrtk.readthedocs.io/"
+repository = "https://github.com/Kitware/nrtk-albumentations"
 keywords = [
   "2D augmentation",
   "3D augmentation",
@@ -92,10 +93,10 @@ packages = [
   { include = "albumentations" },
 ]
 include = [ "albumentations/*.txt", "albumentations/*.md" ]
-exclude = [ "tests", "tools", "benchmark", "docs", ".github", ".cursor" ]
+exclude = [ "tests", "tools", "benchmark", "docs", ".github" ]
 
 [tool.poetry.urls]
-Homepage = "https://albumentations.ai"
+Homepage = "https://nrtk.readthedocs.io/"
 
 [tool.poetry.dependencies]
 python = ">=3.9"
@@ -253,14 +254,6 @@ lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # Like Black, use double quotes for strings.
 lint.pydocstyle.convention = "google"
 lint.pydocstyle.ignore-magic-methods = true
-
-[tool.albumentations.maintainers]
-emeritus = [
-  "Alexander Buslaev",
-  "Alex Parinov",
-  "Eugene Khvedchenya",
-  "Mikhail Druzhinin",
-]
 
 [tool.pydantic-mypy]
 init_forbid_extra = true

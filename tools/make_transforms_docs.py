@@ -20,7 +20,8 @@ IGNORED_CLASSES = {
 
 
 def make_augmentation_docs_link(cls) -> str:
-    return f"[{cls.__name__}](https://explore.albumentations.ai/transform/{cls.__name__})"
+    # NRTK fork: Removed links to explore.albumentations.ai (original project's demo site)
+    return f"`{cls.__name__}`"
 
 
 def parse_args() -> argparse.Namespace:

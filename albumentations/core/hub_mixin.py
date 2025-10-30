@@ -43,7 +43,7 @@ def require_huggingface_hub(func: Callable[..., Any]) -> Callable[..., Any]:
         if not is_huggingface_hub_available:
             raise ImportError(
                 f"You need to install `huggingface_hub` to use {func.__name__}. "
-                "Run `pip install huggingface_hub`, or `pip install albumentations[hub]`.",
+                "Run `pip install huggingface_hub`, or `pip install nrtk-albumentations[hub]`.",
             )
         return func(*args, **kwargs)
 
