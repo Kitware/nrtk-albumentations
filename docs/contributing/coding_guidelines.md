@@ -660,8 +660,10 @@ Before submitting your PR:
 
 ## Getting Help
 
-If you have questions about these guidelines:
+> **Note:** This fork is maintained specifically for NRTK integration. We are not accepting general contributions at this time.
 
-1. Join our [Discord community](https://discord.gg/e6zHCXTvaN)
-2. Open a GitHub [issue](https://github.com/albumentations-team/albumentations/issues)
-3. Ask in your [pull request](https://github.com/albumentations-team/albumentations/pulls)
+For Kitware developers and NRTK maintainers working on this fork:
+
+1. Open an issue on [this repository](https://github.com/Kitware/nrtk-albumentations/issues) for fork-specific questions
+2. Contact the NRTK team at <nrtk@kitware.com>
+3. Consult with other Kitware developers working on NRTK

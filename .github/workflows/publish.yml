@@ -1,0 +1,81 @@
+name: Publish
+
+# Controls when the action will run.
+on:
+  push:
+    tags:
+      # Only run on tags with official version tag release format (e.g. v1.0.1)
+      - "v[0-9].[0-9]+.[0-9]+"
+
+  # Allow use of this workflow as a reusable workflow.
+  # https://docs.github.com/en/actions/learn-github-actions/reusing-workflows
+  workflow_call:
+    secrets:
+      PYPI_TOKEN:
+        required: true
+
+defaults:
+  run:
+    shell: bash
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# NOTE: GitHub actions does not support anchors, apparently. Forgive duplication of job
+#       steps.
+jobs:
+  publish:
+    # Running in containers, so this unknown environment is fine.
+    runs-on: ubuntu-latest
+
+    if: github.repository_owner == 'Kitware'
+
+    env:
+      PYTHON_VERSION: "3.10"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      # Cache local python environment artifacts for the current python version
+      # and poetry lockfile hash.
+      - name: Restore Python cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${cache-dir}/virtualenvs
+          key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-
+
+      - name: Install and configure Poetry
+        uses: snok/install-poetry@v1
+
+      # Ensure there is alignment with the tag reference and the reported
+      # version of the package
+      - name: Ensure synchronized package and ref
+        run: |
+          PACKAGE_VERSION="v$(poetry version -s)"
+          if [[ "${{ github.ref_name }}" != "${PACKAGE_VERSION}" ]]
+          then
+            echo "ERROR: Git tag reference and package version are NOT synonymous."
+            echo "       Package version: ${PACKAGE_VERSION}"
+            echo "       Git ref name   : ${{ github.ref_name }}"
+            exit 1
+          fi
+
+      - name: Publish
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN}}
+        run: |
+          if [[ -z "$POETRY_PYPI_TOKEN_PYPI" ]]
+          then
+            echo "ERROR: Input pypi token was blank. Did you forget to set the appropriate secret?"
+            exit 1
+          fi
+          echo "Publishing new tag: ${{ github.ref_name }}"
+          poetry publish --build

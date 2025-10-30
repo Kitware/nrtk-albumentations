@@ -1,130 +1,67 @@
 # Setting Up Your Development Environment
 
-This guide will help you set up your development environment for contributing to Albumentations.
+> **Note:** This fork is maintained specifically for NRTK integration. We are not accepting general contributions at this time. For issues or questions related to NRTK integration, please open an issue on the [NRTK repository](https://github.com/Kitware/nrtk/issues).
+
+This guide is provided for Kitware developers and NRTK maintainers working on this fork.
 
 ## Prerequisites
 
 - Python 3.9 or higher
+- Poetry 2.0+
 - Git
-- A GitHub account
 
-## Step-by-Step Setup
+## Setup
 
-### 1. Fork and Clone the Repository
-
-1. Fork the [Albumentations repository](https://github.com/albumentations-team/albumentations) on GitHub
-2. Clone your fork locally:
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/albumentations.git
-cd albumentations
+git clone https://github.com/Kitware/nrtk-albumentations.git
+cd nrtk-albumentations
 ```
 
-### 2. Create a Virtual Environment
-
-Choose the appropriate commands for your operating system:
-
-#### Linux / macOS
+### 2. Install Dependencies with Poetry
 
 ```bash
-python3 -m venv env
-source env/bin/activate
+poetry install
 ```
 
-#### Windows (cmd.exe)
+This will create a virtual environment and install all dependencies.
+
+### 3. Set Up Pre-commit Hooks
+
+Pre-commit hooks help maintain code quality:
 
 ```bash
-python -m venv env
-env\Scripts\activate.bat
+poetry run pre-commit install
 ```
 
-#### Windows (PowerShell)
+Run hooks manually on all files:
 
 ```bash
-python -m venv env
-env\Scripts\activate.ps1
-```
-
-### 3. Install Dependencies
-
-1. Install the project in editable mode:
-
-```bash
-pip install -e .
-```
-
-1. Install development dependencies:
-
-```bash
-pip install -r requirements-dev.txt
-```
-
-### 4. Set Up Pre-commit Hooks
-
-Pre-commit hooks help maintain code quality by automatically checking your changes before each commit.
-
-1. Install pre-commit:
-
-```bash
-pip install pre-commit
-```
-
-1. Set up the hooks:
-
-```bash
-pre-commit install
-```
-
-1. (Optional) Run hooks manually on all files:
-
-```bash
-pre-commit run --files $(find albumentations -type f)
+poetry run pre-commit run --files $(find albumentations -type f)
 ```
 
 ## Verifying Your Setup
 
-### Run Tests
-
-Ensure everything is set up correctly by running the test suite:
+Run the test suite:
 
 ```bash
-pytest
+poetry run pytest
 ```
 
-### Common Issues and Solutions
-
-#### Permission Errors
-
-- **Linux/macOS**: If you encounter permission errors, try using `sudo` for system-wide installations or consider using `--user` flag with pip
-- **Windows**: Run your terminal as administrator if you encounter permission issues
-
-#### Virtual Environment Not Activating
-
-- Ensure you're in the correct directory
-- Check that Python is properly installed and in your system PATH
-- Try creating the virtual environment with the full Python path
-
-#### Import Errors After Installation
-
-- Verify that you're using the correct virtual environment
-- Confirm that all dependencies were installed successfully
-- Try reinstalling the package in editable mode
-
-## Next Steps
-
-After setting up your environment:
+## Development Workflow
 
 1. Create a new branch for your work
 2. Make your changes
-3. Run tests and pre-commit hooks
-4. Submit a pull request
-
-For more detailed information about contributing, please refer to [Coding Guidelines](./coding_guidelines.md)
+3. Run tests: `poetry run pytest`
+4. Run pre-commit hooks: `poetry run pre-commit run --all-files`
+5. Commit and push your changes
+6. Create a pull request
 
 ## Getting Help
 
-If you encounter any issues with the setup:
+For questions about this fork or NRTK integration:
 
-1. Check our [Discord community](https://discord.gg/e6zHCXTvaN)
-2. Open an [issue on GitHub](https://github.com/albumentations-team/albumentations/issues)
-3. Review existing issues for similar problems and solutions
+- Open an issue on [this repository](https://github.com/Kitware/nrtk-albumentations/issues) for fork-specific questions
+- Open an issue on [NRTK repository](https://github.com/Kitware/nrtk/issues) for broader NRTK questions
+- Contact the NRTK team at <nrtk@kitware.com>
