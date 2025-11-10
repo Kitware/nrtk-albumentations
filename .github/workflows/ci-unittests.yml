@@ -1,0 +1,175 @@
+name: CI
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      - release*
+  schedule:
+    # Nightly run unit tests to check for implicit dependency issues between pull requests.
+    - cron: '0 0 * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  core:
+    name: Unit Tests
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        include:
+          - operating-system: ubuntu-latest
+            path: ~/.cache/pip
+          - operating-system: windows-latest
+            path: ~\AppData\Local\pip\Cache
+          - operating-system: macos-latest
+            path: ~/Library/Caches/pip
+      fail-fast: false
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Restore Python cache
+      uses: actions/cache/restore@v4
+      with:
+        path: ${cache-dir}/virtualenvs
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-python-${{ matrix.python-version }}-
+
+    - name: Install and configure Poetry
+      uses: snok/install-poetry@v1
+
+    - name: Install all dependencies
+      run: poetry install
+      shell: bash
+
+    - name: Install PyTorch
+      run: |
+        if [ "${{ matrix.operating-system }}" = "macos-latest" ]; then
+          poetry run pip install torch==2.6.0 torchvision==0.21.0
+        else
+          poetry run pip install torch==2.6.0+cpu torchvision==0.21.0+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+        fi
+      shell: bash
+
+    # If OpenCV python package `opencv-python` is installed, replace it with
+    # the same version of `opencv-python-headless`. This is needed because
+    # "normal" `opencv-python` has graphics library requirements that are not
+    # required, but `opencv-python` is the standard library to depend on.
+    # NOTE: need to include opencv-python-headless in uninstall to clear away
+    #       a possibly cached installation.
+    - name: Replace OpenCV with Headless
+      run: |
+        export PIP_LIST="$(poetry run pip list --format=json)"
+        if (echo "$PIP_LIST" | poetry run ./scripts/pycv2_is_installed.py)
+        then
+          echo "OpenCV-Python installed, replacing with equivalent headless version."
+          VERSION="$(echo "$PIP_LIST" | poetry run  ./scripts/pycv2_installed_version.py)"
+          poetry run pip uninstall -y opencv-python opencv-python-headless
+          poetry run pip install --no-deps opencv-python-headless=="$VERSION"
+        else
+          echo "OpenCV-Python NOT installed, skipping."
+        fi
+      shell: bash
+
+    - name: Run PyTest
+      run: poetry run pytest
+      shell: bash
+
+    # Save/Update the Python cache prior to unittest extras
+    - name: Save Python cache
+      uses: actions/cache/save@v4
+      with:
+        path: ${cache-dir}/virtualenvs
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+
+  pre_commit_hooks:
+    name: Check Pre-Commit Hooks
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        python-version: ["3.9"]
+        include:
+          - operating-system: ubuntu-latest
+            path: ~/.cache/pip
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Restore Python cache
+      uses: actions/cache/restore@v4
+      with:
+        path: ${cache-dir}/virtualenvs
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-python-${{ matrix.python-version }}-
+
+    - name: Install and configure Poetry
+      uses: snok/install-poetry@v1
+
+    - name: Install all dependencies
+      run: poetry install
+
+    - name: Run checks
+      run: poetry run pre-commit run --files $(find albumentations -type f)
+
+  check_defaults_in_apply:
+    name: Check Defaults In Apply
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        python-version: ["3.9"]
+        include:
+          - operating-system: ubuntu-latest
+            path: ~/.cache/pip
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Restore Python cache
+      uses: actions/cache/restore@v4
+      with:
+        path: ${cache-dir}/virtualenvs
+        key: ${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-python-${{ matrix.python-version }}-
+
+    - name: Install and configure Poetry
+      uses: snok/install-poetry@v1
+
+    - name: Install all dependencies
+      run: poetry install
+
+    - name: check-defaults-in-apply
+      run: poetry run python -m tools.check_defaults

@@ -1,46 +1,40 @@
 [build-system]
-build-backend = "setuptools.build_meta"
+build-backend = "poetry.core.masonry.api"
 
-requires = [ "setuptools>=45", "wheel" ]
+requires = [ "poetry-core>=2" ]
 
-[project]
-name = "albumentations"
-
-version = "2.0.8"
-
-description = "Fast, flexible, and advanced augmentation library for deep learning, computer vision, and medical imaging. Albumentations offers a wide range of transformations for both 2D (images, masks, bboxes, keypoints) and 3D (volumes, volumetric masks, keypoints) data, with optimized performance and seamless integration into ML workflows."
+[tool.poetry]
+name = "nrtk-albumentations"
+version = "2.1.0"
+description = "Fork of Albumentations in direct support of NRTK (Natural Robustness Toolkit). Fast, flexible, and advanced augmentation library for deep learning, computer vision, and medical imaging. Offers a wide range of transformations for both 2D (images, masks, bboxes, keypoints) and 3D (volumes, volumetric masks, keypoints) data, with optimized performance and seamless integration into ML workflows."
+authors = [ "Vladimir Iglovikov" ]
+maintainers = [ "Kitware, Inc. <nrtk@kitware.com>" ]
+license = "MIT"
 readme = "README.md"
+homepage = "https://nrtk.readthedocs.io/"
+repository = "https://github.com/Kitware/nrtk-albumentations"
 keywords = [
   "2D augmentation",
   "3D augmentation",
   "aerial photography",
   "anomaly detection",
-
   "artificial intelligence",
-
   "autonomous driving",
   "bounding boxes",
-  # Core Computer Vision Tasks
   "classification",
-  # Technical Domains
   "computer vision",
   "computer vision library",
   "data augmentation",
-
   "data preprocessing",
   "data science",
   "deep learning",
   "deep learning library",
-
   "depth estimation",
   "face recognition",
-  # Performance & Features
   "fast augmentation",
-  # Data Types & Processing
   "image augmentation",
   "image processing",
   "image transformation",
-  # Data Structures
   "images",
   "instance segmentation",
   "keras",
@@ -49,7 +43,6 @@ keywords = [
   "machine learning",
   "machine learning tools",
   "masks",
-  # Application Domains
   "medical imaging",
   "microscopy",
   "object counting",
@@ -57,14 +50,10 @@ keywords = [
   "optimized performance",
   "panoptic segmentation",
   "pose estimation",
-  # Development
   "python library",
-  # ML Frameworks
   "pytorch",
   "quality inspection",
-
   "real-time processing",
-
   "robotics vision",
   "satellite imagery",
   "semantic segmentation",
@@ -72,81 +61,75 @@ keywords = [
   "volumes",
   "volumetric data",
   "volumetric masks",
-
 ]
-license = { file = "LICENSE" }
-
-maintainers = [ { name = "Vladimir Iglovikov" } ]
-
-authors = [ { name = "Vladimir Iglovikov" } ]
-requires-python = ">=3.9"
-
 classifiers = [
-  # Development Status
   "Development Status :: 5 - Production/Stable",
-
-  # Intended Audience
   "Intended Audience :: Developers",
-  "Intended Audience :: Healthcare Industry",    # valid for medical applications
+  "Intended Audience :: Healthcare Industry",
   "Intended Audience :: Information Technology",
-
   "Intended Audience :: Science/Research",
-  # License
   "License :: OSI Approved :: MIT License",
-
-  # Operating System
   "Operating System :: OS Independent",
-
-  # Python Versions
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-
   "Programming Language :: Python :: 3.13",
-  # Topics - Scientific
   "Topic :: Scientific/Engineering",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
   "Topic :: Scientific/Engineering :: Astronomy",
   "Topic :: Scientific/Engineering :: Atmospheric Science",
-
   "Topic :: Scientific/Engineering :: Bio-Informatics",
   "Topic :: Scientific/Engineering :: Image Processing",
   "Topic :: Scientific/Engineering :: Physics",
   "Topic :: Scientific/Engineering :: Visualization",
-  # Topics - Software Development
   "Topic :: Software Development :: Libraries",
   "Topic :: Software Development :: Libraries :: Python Modules",
-
-  # Typing
   "Typing :: Typed",
 ]
+packages = [
+  { include = "albumentations" },
+]
+include = [ "albumentations/*.txt", "albumentations/*.md" ]
+exclude = [ "tests", "tools", "benchmark", "docs", ".github" ]
 
-dynamic = [ "dependencies" ]
-optional-dependencies.hub = [ "huggingface-hub" ]
-optional-dependencies.pytorch = [ "torch" ]
+[tool.poetry.urls]
+Homepage = "https://nrtk.readthedocs.io/"
 
-optional-dependencies.text = [ "pillow" ]
-urls.Homepage = "https://albumentations.ai"
+[tool.poetry.dependencies]
+python = ">=3.9"
+numpy = ">=1.24.4"
+scipy = ">=1.10.0"
+PyYAML = "*"
+typing-extensions = { version = ">=4.9.0", python = "<3.10" }
+pydantic = ">=2.9.2"
+albucore = "0.0.28"
+eval-type-backport = { version = "*", python = "<3.10" }
+opencv-python-headless = ">=4.9.0.80"
 
-[tool.setuptools]
-packages = { find = { include = [
-  "albumentations*",
-], exclude = [
-  "tests",
-  "tools",
-  "benchmark",
-  "docs",
-  ".github",
-  ".cursor",
-] } }
+[tool.poetry.extras]
+hub = [ "huggingface-hub" ]
+pytorch = [ "torch" ]
+text = [ "pillow" ]
 
-package-data = { albumentations = [ "*.txt", "*.md" ] }
-
-[tool.setuptools.exclude-package-data]
-"*" = [ "tests*", "tools*", "benchmark*", "conda.recipe*", "docs*", ".github*", ".cursor" ]
+[tool.poetry.group.dev.dependencies]
+deepdiff = ">=8.0.1"
+eval-type-backport = "*"
+pre-commit = ">=3.5.0"
+pytest = ">=8.3.3"
+pytest-cov = ">=5.0.0"
+pytest-mock = ">=3.14.0"
+pytz = "*"
+requests = ">=2.31.0"
+scikit-image = "*"
+scikit-learn = "*"
+tomli = ">=2.0.1"
+torch = ">=2.3.1"
+torchvision = ">=0.18.1"
+types-PyYAML = "*"
+types-setuptools = "*"
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -271,14 +254,6 @@ lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 # Like Black, use double quotes for strings.
 lint.pydocstyle.convention = "google"
 lint.pydocstyle.ignore-magic-methods = true
-
-[tool.albumentations.maintainers]
-emeritus = [
-  "Alexander Buslaev",
-  "Alex Parinov",
-  "Eugene Khvedchenya",
-  "Mikhail Druzhinin",
-]
 
 [tool.pydantic-mypy]
 init_forbid_extra = true
