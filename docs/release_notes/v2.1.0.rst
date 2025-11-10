@@ -1,6 +1,21 @@
 v2.1.0
 ======
 
+This is the initial release of ``nrtk-albumentations``, a fork of Albumentations v2.0.8 maintained by Kitware
+in direct support of `NRTK (Natural Robustness Toolkit) <https://github.com/Kitware/nrtk>`_. This fork provides
+fast and flexible image augmentation capabilities specifically tailored for NRTK's natural robustness evaluation workflows.
+
+Key highlights of this release include:
+
+* Migration from setuptools to Poetry for modern Python package management
+* Updated CI/CD workflows with Poetry integration and automated PyPI publishing
+* Fork-specific modifications to clearly identify this as an NRTK support package
+* Removal of upstream-specific features (version checking, marketing content, conda distribution)
+* Streamlined documentation focused on NRTK integration use cases
+
+This package is designed to be used with NRTK's ``AlbumentationsPerturber`` and includes 70+ image augmentation
+transforms supporting classification, segmentation, object detection, pose estimation, and 3D volumetric data.
+
 Updates / New Features
 ----------------------
 
