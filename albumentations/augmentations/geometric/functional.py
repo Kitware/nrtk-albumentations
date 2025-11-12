@@ -15,6 +15,7 @@ from warnings import warn
 
 import cv2
 import numpy as np
+
 from albucore import (
     get_num_channels,
     hflip,
@@ -22,7 +23,6 @@ from albucore import (
     preserve_channel_dim,
     vflip,
 )
-
 from albumentations.augmentations.utils import angle_2pi_range, handle_empty_array
 from albumentations.core.bbox_utils import (
     bboxes_from_masks,
@@ -1593,6 +1593,9 @@ def pad_with_params(
         np.ndarray: Padded image.
 
     """
+    # Use 0 as default value if None is provided
+    fill_value: tuple[float, ...] | float = value if value is not None else 0
+
     pad_fn = maybe_process_in_chunks(
         copy_make_border_with_value_extension,
         top=h_pad_top,
@@ -1600,7 +1603,7 @@ def pad_with_params(
         left=w_pad_left,
         right=w_pad_right,
         border_mode=border_mode,
-        value=value,
+        value=fill_value,
     )
 
     return pad_fn(img)

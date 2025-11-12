@@ -134,7 +134,7 @@ jobs:
       run: poetry install
 
     - name: Run checks
-      run: poetry run pre-commit run --files $(find albumentations -type f)
+      run: poetry run pre-commit run --files $(find albumentations albucore -type f)
 
   check_defaults_in_apply:
     name: Check Defaults In Apply

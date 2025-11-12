@@ -15,13 +15,13 @@ from typing import TYPE_CHECKING, Any, Callable, TypeVar, cast
 
 import cv2
 import numpy as np
+from typing_extensions import Concatenate, ParamSpec
+
 from albucore.utils import (
     is_grayscale_image,
     is_multispectral_image,
     is_rgb_image,
 )
-from typing_extensions import Concatenate, ParamSpec
-
 from albumentations.core.keypoints_utils import angle_to_2pi_range
 
 if TYPE_CHECKING:

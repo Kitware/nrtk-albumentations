@@ -14,7 +14,6 @@ from warnings import warn
 
 import cv2
 import numpy as np
-from albucore import batch_transform, is_grayscale_image, is_rgb_image
 from pydantic import (
     AfterValidator,
     Field,
@@ -24,6 +23,7 @@ from pydantic import (
 )
 from typing_extensions import Self
 
+from albucore import batch_transform, is_grayscale_image, is_rgb_image
 from albumentations.augmentations.utils import check_range
 from albumentations.core.bbox_utils import (
     BboxProcessor,
@@ -825,11 +825,12 @@ class Affine(DualTransform):
             np.ndarray: Distorted mask.
 
         """
+        fill_mask_value: tuple[float, ...] | float = self.fill_mask if self.fill_mask is not None else 0
         return fgeometric.warp_affine(
             mask,
             matrix,
             interpolation=self.mask_interpolation,
-            fill=self.fill_mask,
+            fill=fill_mask_value,
             border_mode=self.border_mode,
             output_shape=output_shape,
         )

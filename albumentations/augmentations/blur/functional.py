@@ -16,9 +16,9 @@ from warnings import warn
 
 import cv2
 import numpy as np
-from albucore import clipped, float32_io, maybe_process_in_chunks, preserve_channel_dim, uint8_io
 from pydantic import ValidationInfo
 
+from albucore import clipped, float32_io, maybe_process_in_chunks, preserve_channel_dim, uint8_io
 from albumentations.augmentations.geometric.functional import scale
 from albumentations.augmentations.pixel.functional import convolve
 from albumentations.core.type_definitions import EIGHT

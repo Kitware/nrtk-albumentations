@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any
 
 import cv2
 import numpy as np
+
 from albucore import (
     MONO_CHANNEL_DIMENSIONS,
     NUM_MULTI_CHANNEL_DIMENSIONS,
@@ -19,7 +20,6 @@ from albucore import (
     preserve_channel_dim,
     uint8_io,
 )
-
 from albumentations.core.type_definitions import PAIR
 
 # Importing wordnet and other dependencies only for type checking
