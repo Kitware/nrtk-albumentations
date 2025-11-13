@@ -52,7 +52,7 @@ repos:
       entry: python tools/check_example_docstrings.py
       language: python
       types: [python]
-      files: ^albumentations/
+      files: ^(albumentations/|albucore/)
       pass_filenames: true
       additional_dependencies: ["google-docstring-parser>=0.0.7"]
     - id: check-no-defaults-in-schemas
@@ -60,15 +60,8 @@ repos:
       entry: python tools/check_no_defaults_in_schemas.py
       language: python
       types: [python]
-      files: ^albumentations/
+      files: ^(albumentations/|albucore/)
       pass_filenames: true
-  - repo: local
-    hooks:
-      - id: check-albucore-version
-        name: Check albucore version
-        entry: python ./tools/check_albucore_version.py
-        language: system
-        files: pyproject.toml
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.0
     hooks:
@@ -101,7 +94,7 @@ repos:
     rev: v1.16.1
     hooks:
       - id: mypy
-        files: ^albumentations/
+        files: ^(albumentations/|albucore/)
         additional_dependencies: [ types-PyYAML, types-setuptools, pydantic>=2.9]
         args:
           [ --config-file=pyproject.toml ]
@@ -109,6 +102,6 @@ repos:
     rev: 0.0.8  # Use the latest version
     hooks:
       - id: check-google-docstrings
-        files: ^albumentations/
+        files: ^(albumentations/|albucore/)
         exclude: ^build/
         additional_dependencies: ["tomli>=2.0.0"]

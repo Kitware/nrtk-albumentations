@@ -2989,8 +2989,8 @@ class CropAndPad(DualTransform):
     def apply(
         self,
         img: np.ndarray,
-        crop_params: Sequence[int],
-        pad_params: Sequence[int],
+        crop_params: tuple[int, int, int, int],
+        pad_params: tuple[int, int, int, int],
         fill: tuple[float, ...] | float,
         **params: Any,
     ) -> np.ndarray:
@@ -3021,8 +3021,8 @@ class CropAndPad(DualTransform):
     def apply_to_mask(
         self,
         mask: np.ndarray,
-        crop_params: Sequence[int],
-        pad_params: Sequence[int],
+        crop_params: tuple[int, int, int, int],
+        pad_params: tuple[int, int, int, int],
         fill_mask: tuple[float, ...] | float,
         **params: Any,
     ) -> np.ndarray:

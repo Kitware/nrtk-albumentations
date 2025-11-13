@@ -11,9 +11,9 @@ from __future__ import annotations
 from typing import Annotated, Any
 
 import numpy as np
-from albucore import get_num_channels
 from pydantic import AfterValidator
 
+from albucore import get_num_channels
 from albumentations.core.pydantic import check_range_bounds
 from albumentations.core.transforms_interface import BaseTransformInitSchema, ImageOnlyTransform
 

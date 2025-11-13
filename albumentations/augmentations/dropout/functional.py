@@ -12,6 +12,7 @@ from typing import Literal, cast
 
 import cv2
 import numpy as np
+
 from albucore import (
     MAX_VALUES_BY_DTYPE,
     NUM_MULTI_CHANNEL_DIMENSIONS,
@@ -20,7 +21,6 @@ from albucore import (
     preserve_channel_dim,
     uint8_io,
 )
-
 from albumentations.augmentations.geometric.functional import split_uniform_grid
 from albumentations.augmentations.utils import handle_empty_array
 from albumentations.core.type_definitions import MONO_CHANNEL_DIMENSIONS

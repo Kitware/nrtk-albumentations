@@ -11,9 +11,9 @@ from __future__ import annotations
 from typing import Any, Literal, cast
 
 import numpy as np
-from albucore import get_num_channels
 from pydantic import Field
 
+from albucore import get_num_channels
 from albumentations.augmentations.dropout import functional as fdropout
 from albumentations.augmentations.dropout.functional import (
     cutout,
@@ -159,15 +159,19 @@ class BaseDropout(DualTransform):
                 raise ValueError("Inpainting works only for 1 or 3 channel images")
         return cutout_on_volumes(volumes, holes, self.fill, np.random.default_rng(seed))
 
-    def apply_to_mask3d(self, mask: np.ndarray, holes: np.ndarray, seed: int, **params: Any) -> np.ndarray:
+    def apply_to_mask3d(self, mask3d: np.ndarray, *args: Any, **params: Any) -> np.ndarray:
+        holes = params["holes"]
+        seed = params["seed"]
         if self.fill_mask is None or holes.size == 0:
-            return mask
-        return cutout_on_volume(mask, holes, self.fill_mask, np.random.default_rng(seed))
+            return mask3d
+        return cutout_on_volume(mask3d, holes, self.fill_mask, np.random.default_rng(seed))
 
-    def apply_to_masks3d(self, mask: np.ndarray, holes: np.ndarray, seed: int, **params: Any) -> np.ndarray:
+    def apply_to_masks3d(self, masks3d: np.ndarray, *args: Any, **params: Any) -> np.ndarray:
+        holes = params["holes"]
+        seed = params["seed"]
         if self.fill_mask is None or holes.size == 0:
-            return mask
-        return cutout_on_volumes(mask, holes, self.fill_mask, np.random.default_rng(seed))
+            return masks3d
+        return cutout_on_volumes(masks3d, holes, self.fill_mask, np.random.default_rng(seed))
 
     def apply_to_mask(self, mask: np.ndarray, holes: np.ndarray, seed: int, **params: Any) -> np.ndarray:
         if self.fill_mask is None or holes.size == 0:

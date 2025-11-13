@@ -33,7 +33,6 @@ from warnings import warn
 
 import cv2
 import numpy as np
-from albucore import batch_transform
 from pydantic import (
     AfterValidator,
     Field,
@@ -41,6 +40,7 @@ from pydantic import (
     field_validator,
 )
 
+from albucore import batch_transform
 from albumentations.augmentations.utils import check_range
 from albumentations.core.bbox_utils import (
     denormalize_bboxes,

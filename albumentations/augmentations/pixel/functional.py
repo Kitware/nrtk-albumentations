@@ -15,6 +15,8 @@ from warnings import warn
 
 import cv2
 import numpy as np
+
+import albumentations.augmentations.geometric.functional as fgeometric
 from albucore import (
     MAX_VALUES_BY_DTYPE,
     add,
@@ -43,8 +45,6 @@ from albucore import (
     sz_lut,
     uint8_io,
 )
-
-import albumentations.augmentations.geometric.functional as fgeometric
 from albumentations.augmentations.utils import (
     PCA,
     non_rgb_error,
@@ -875,7 +875,6 @@ def add_fog(
 
 @uint8_io
 @preserve_channel_dim
-@maybe_process_in_chunks
 def add_sun_flare_overlay(
     img: np.ndarray,
     flare_center: tuple[float, float],
@@ -3276,7 +3275,7 @@ def create_contrast_lut(
     hist: np.ndarray,
     min_intensity: int,
     max_intensity: int,
-    max_value: int,
+    max_value: float,
     method: Literal["cdf", "pil"],
 ) -> np.ndarray:
     """Create lookup table for contrast adjustment.

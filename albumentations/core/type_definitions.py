@@ -14,9 +14,10 @@ from typing import TypeVar, Union
 
 import cv2
 import numpy as np
-from albucore.utils import MAX_VALUES_BY_DTYPE
 from numpy.typing import NDArray
 from typing_extensions import NotRequired, TypedDict
+
+from albucore.utils import MAX_VALUES_BY_DTYPE
 
 Number = TypeVar("Number", float, int)
 

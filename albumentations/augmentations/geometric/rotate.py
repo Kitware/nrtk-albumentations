@@ -469,11 +469,12 @@ class Rotate(DualTransform):
             np.ndarray: Transformed mask.
 
         """
+        fill_mask_value: tuple[float, ...] | float = self.fill_mask if self.fill_mask is not None else 0
         img_out = fgeometric.warp_affine(
             mask,
             matrix,
             self.mask_interpolation,
-            self.fill_mask,
+            fill_mask_value,
             self.border_mode,
             params["shape"][:2],
         )

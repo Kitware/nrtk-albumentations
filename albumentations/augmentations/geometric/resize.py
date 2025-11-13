@@ -11,10 +11,10 @@ from typing import Any, Literal, cast
 
 import cv2
 import numpy as np
-from albucore import batch_transform
 from pydantic import Field, field_validator, model_validator
 from typing_extensions import Self
 
+from albucore import batch_transform
 from albumentations.core.transforms_interface import BaseTransformInitSchema, DualTransform
 from albumentations.core.type_definitions import ALL_TARGETS
 from albumentations.core.utils import to_tuple
