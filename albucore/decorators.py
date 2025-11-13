@@ -1,17 +1,12 @@
 """Decorators and utilities for transforming and reshaping image arrays across various dimensions."""
 
-import sys
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable, Literal, TypeVar, cast
+from typing import Any, Concatenate, Literal, TypeVar, cast
 
 import numpy as np
 
 from albucore.utils import MONO_CHANNEL_DIMENSIONS, NUM_MULTI_CHANNEL_DIMENSIONS, P
-
-if sys.version_info >= (3, 10):
-    from typing import Concatenate
-else:
-    from typing_extensions import Concatenate
 
 F = TypeVar("F", bound=Callable[..., Any])
 

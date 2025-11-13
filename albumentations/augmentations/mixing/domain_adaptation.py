@@ -9,8 +9,8 @@ like histograms, frequency spectra, or overall pixel distributions.
 from __future__ import annotations
 
 import warnings
-from collections.abc import Sequence
-from typing import Annotated, Any, Callable, Literal, cast
+from collections.abc import Callable, Sequence
+from typing import Annotated, Any, Literal, cast
 
 import cv2
 import numpy as np

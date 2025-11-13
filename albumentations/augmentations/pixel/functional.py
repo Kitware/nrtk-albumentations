@@ -9,8 +9,8 @@ the core functionality for manipulating image data during the augmentation proce
 from __future__ import annotations
 
 import math
-from collections.abc import Sequence
-from typing import Any, Callable, Literal
+from collections.abc import Callable, Sequence
+from typing import Any, Literal
 from warnings import warn
 
 import cv2
@@ -849,7 +849,7 @@ def add_fog(
     result = img.copy()
 
     # Apply fog particles progressively like in old version
-    for (x, y), radius in zip(fog_particle_positions, fog_particle_radiuses):
+    for (x, y), radius in zip(fog_particle_positions, fog_particle_radiuses, strict=False):
         overlay = result.copy()
         cv2.circle(
             overlay,
@@ -1120,7 +1120,7 @@ def add_shadow(
     img_shadowed = img.copy()
 
     # Iterate over the vertices and intensity list
-    for vertices, shadow_intensity in zip(vertices_list, intensities):
+    for vertices, shadow_intensity in zip(vertices_list, intensities, strict=False):
         # Create mask for the current shadow polygon
         mask = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.uint8)
         cv2.fillPoly(mask, [vertices], (max_value,))

@@ -10,8 +10,9 @@ and serialization capabilities that are inherited by concrete transform implemen
 from __future__ import annotations
 
 import random
+from collections.abc import Callable
 from copy import deepcopy
-from typing import Any, Callable
+from typing import Any
 from warnings import warn
 
 import cv2

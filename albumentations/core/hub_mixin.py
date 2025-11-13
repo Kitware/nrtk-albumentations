@@ -6,8 +6,9 @@ from __future__ import annotations
 
 import functools
 import logging
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from albumentations.core.serialization import load as load_transform
 from albumentations.core.serialization import save as save_transform

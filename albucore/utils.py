@@ -2,14 +2,9 @@
 
 from __future__ import annotations
 
-import sys
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable, Literal, Union
-
-if sys.version_info >= (3, 10):
-    from typing import Concatenate, ParamSpec
-else:
-    from typing_extensions import Concatenate, ParamSpec
+from typing import Any, Concatenate, Literal, ParamSpec
 
 import cv2
 import numpy as np
@@ -308,7 +303,7 @@ def convert_value(value: np.ndarray | float, num_channels: int) -> float | np.nd
     raise TypeError(f"Unsupported value type: {type(value)}")
 
 
-ValueType = Union[np.ndarray, float, int]
+ValueType = np.ndarray | float | int
 
 
 def get_max_value(dtype: np.dtype) -> float:

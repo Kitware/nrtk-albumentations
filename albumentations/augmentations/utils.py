@@ -10,12 +10,12 @@ and simplify common operations across different augmentation transforms.
 from __future__ import annotations
 
 import functools
+from collections.abc import Callable
 from functools import wraps
-from typing import TYPE_CHECKING, Any, Callable, TypeVar, cast
+from typing import TYPE_CHECKING, Any, Concatenate, ParamSpec, TypeVar, cast
 
 import cv2
 import numpy as np
-from typing_extensions import Concatenate, ParamSpec
 
 from albucore.utils import (
     is_grayscale_image,

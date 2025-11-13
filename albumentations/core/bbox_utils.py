@@ -809,7 +809,7 @@ def bboxes_from_masks(masks: np.ndarray) -> np.ndarray:
 
     bboxes = np.zeros((masks.shape[0], 4), dtype=np.int32)
 
-    for i, (row, col) in enumerate(zip(rows, cols)):
+    for i, (row, col) in enumerate(zip(rows, cols, strict=False)):
         if not np.any(row) or not np.any(col):
             bboxes[i] = [-1, -1, -1, -1]
         else:

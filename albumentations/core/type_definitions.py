@@ -10,7 +10,7 @@ and provide a centralized location for commonly used values.
 from __future__ import annotations
 
 from enum import Enum
-from typing import TypeVar, Union
+from typing import TypeVar
 
 import cv2
 import numpy as np
@@ -21,8 +21,8 @@ from albucore.utils import MAX_VALUES_BY_DTYPE
 
 Number = TypeVar("Number", float, int)
 
-IntNumType = Union[np.integer, NDArray[np.integer]]
-FloatNumType = Union[np.floating, NDArray[np.floating]]
+IntNumType = np.integer | NDArray[np.integer]
+FloatNumType = np.floating | NDArray[np.floating]
 
 d4_group_elements = ["e", "r90", "r180", "r270", "v", "hvt", "h", "t"]
 
@@ -93,30 +93,30 @@ MAX_RAIN_ANGLE = 45  # Maximum angle for rain augmentation in degrees
 
 LENGTH_RAW_BBOX = 4
 
-PercentType = Union[
-    float,
-    tuple[float, float],
-    tuple[float, float, float, float],
-    tuple[
-        Union[float, tuple[float, float], list[float]],
-        Union[float, tuple[float, float], list[float]],
-        Union[float, tuple[float, float], list[float]],
-        Union[float, tuple[float, float], list[float]],
-    ],
-]
+PercentType = (
+    float
+    | tuple[float, float]
+    | tuple[float, float, float, float]
+    | tuple[
+        float | tuple[float, float] | list[float],
+        float | tuple[float, float] | list[float],
+        float | tuple[float, float] | list[float],
+        float | tuple[float, float] | list[float],
+    ]
+)
 
 
-PxType = Union[
-    int,
-    tuple[int, int],
-    tuple[int, int, int, int],
-    tuple[
-        Union[int, tuple[int, int], list[int]],
-        Union[int, tuple[int, int], list[int]],
-        Union[int, tuple[int, int], list[int]],
-        Union[int, tuple[int, int], list[int]],
-    ],
-]
+PxType = (
+    int
+    | tuple[int, int]
+    | tuple[int, int, int, int]
+    | tuple[
+        int | tuple[int, int] | list[int],
+        int | tuple[int, int] | list[int],
+        int | tuple[int, int] | list[int],
+        int | tuple[int, int] | list[int],
+    ]
+)
 
 
 REFLECT_BORDER_MODES = {
