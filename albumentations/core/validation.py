@@ -9,8 +9,9 @@ by catching configuration issues at initialization time.
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from inspect import Parameter, signature
-from typing import Any, Callable
+from typing import Any
 from warnings import warn
 
 from pydantic import BaseModel, ValidationError
@@ -37,7 +38,7 @@ class ValidatedTransformMeta(type):
     ) -> tuple[dict[str, Any], list[str], bool]:
         init_params = signature(original_init).parameters
         param_names = list(init_params.keys())[1:]  # Exclude 'self'
-        full_kwargs: dict[str, Any] = dict(zip(param_names, args)) | kwargs
+        full_kwargs: dict[str, Any] = dict(zip(param_names, args, strict=False)) | kwargs
 
         # Get strict value before validation
         strict = full_kwargs.pop("strict", False)

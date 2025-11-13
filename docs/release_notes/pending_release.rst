@@ -6,6 +6,8 @@ Updates / New Features
 
 * Added albucore as a sub-package
 
+* Updated supported python versions to ^3.10
+
 Fixes
 -----
 

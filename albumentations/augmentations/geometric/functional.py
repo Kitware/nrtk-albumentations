@@ -3696,7 +3696,7 @@ def shuffle_tiles_within_shape_groups(
         shuffled_indices = indices.copy()
         random_generator.shuffle(shuffled_indices)
 
-        for old, new in zip(indices, shuffled_indices):
+        for old, new in zip(indices, shuffled_indices, strict=False):
             mapping[old] = new
 
     return mapping

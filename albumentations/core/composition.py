@@ -1650,7 +1650,7 @@ class SelectiveChannelTransform(BaseCompose):
             transformed_channels = cv2.split(sub_image)
             output_img = image.copy()
 
-            for idx, channel in zip(self.channels, transformed_channels):
+            for idx, channel in zip(self.channels, transformed_channels, strict=False):
                 output_img[:, :, idx] = channel
 
             data["image"] = np.ascontiguousarray(output_img)

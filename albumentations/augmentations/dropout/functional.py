@@ -495,7 +495,7 @@ def resize_boxes_to_visible_area(
     regions = [hole_mask[y1[i] : y2[i], x1[i] : x2[i]] for i in range(len(boxes))]
     visible_areas = [1 - region for region in regions]
 
-    for i, (visible, box) in enumerate(zip(visible_areas, boxes)):
+    for i, (visible, box) in enumerate(zip(visible_areas, boxes, strict=False)):
         if not visible.any():
             continue
 

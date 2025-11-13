@@ -8,11 +8,10 @@ border handling options.
 from __future__ import annotations
 
 import math
-from typing import Any, cast
+from typing import Any, Literal, cast
 
 import cv2
 import numpy as np
-from typing_extensions import Literal
 
 from albumentations.augmentations.crops import functional as fcrops
 from albumentations.augmentations.geometric.transforms import Affine

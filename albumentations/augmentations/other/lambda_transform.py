@@ -23,8 +23,9 @@ issues with multiprocessing, as lambdas cannot be properly pickled.
 from __future__ import annotations
 
 import warnings
+from collections.abc import Callable
 from types import LambdaType
-from typing import Any, Callable
+from typing import Any
 
 import numpy as np
 
